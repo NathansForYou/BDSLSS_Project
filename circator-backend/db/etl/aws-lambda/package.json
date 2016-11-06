@@ -1,0 +1,22 @@
+{
+  "name": "mcetl-aws-lambda",
+  "version": "0.0.1",
+  "description": "Metabolic Compass ETL using AWS Lambda",
+  "main": "index.js",
+  "author": {
+    "name": "Yanif Ahmad",
+    "email": "yanif@jhu.edu"
+  },
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^2.0.0",
+    "pg": "^4.5.2"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-aws-lambda": "^0.12.0",
+    "grunt-cli": "^1.1.0",
+    "grunt-jscs": "^2.8.0",
+    "grunt-writefile": "^0.1.4"
+  }
+}
