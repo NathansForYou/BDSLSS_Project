@@ -1,3 +1,6 @@
+# THIS MUST BE RUN USING SPARK 1.5.1
+# IT WILL NOT WORK WITH SPARK 2.0.0
+
 # import mdtraj, use its api for loading in protein data
 import mdtraj as md
 
@@ -18,6 +21,7 @@ t_1k = t.xyz[0:1000]
 
 # Convert into spark RDD to run PCA using ML
 data = []
+# try to find a way to optimize the vectorization
 from pyspark.mllib.linalg import Vectors
 for frame in t_1k:
   for atom in frame:
@@ -25,7 +29,7 @@ for frame in t_1k:
 
 # Next, apply PCA with the following:
 from pyspark.ml.feature import PCA
-df = sqlContext.createDataFrame(data, ["input_xyz"])
-pca = PCA(k=2, inputCol="input_xyz", outputCol="pca_features")
+df = sqlContext.createDataFrame(data, ["features"])
+pca = PCA(k=2, inputCol="features", outputCol="pca_features")
 model = pca.fit(df)
 model.transform(df).collect()[0].pca_features
