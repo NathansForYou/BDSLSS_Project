@@ -4,4 +4,4 @@ def mult_by_vec(vec, mat):
     if len(vec) != len(mat.first()):
         raise Exception("Dimension missmatch")
     mat_zipped = mat.map(lambda arr : zip(arr,v))
-    return mat_zipped.map(lambda arr : map(lambda (x,y) : x*y, arr)).map(sum).collect()
+    return np.asarray(mat_zipped.map(lambda arr : map(lambda (x,y) : x*y, arr)).map(sum).collect())
