@@ -6,7 +6,7 @@
 import mdtraj as md
 
 # load in data
-t = md.load('../../../md/bpti-prot/bpti-prot-00.dcd', top='../../../md/bpti-prot/bpti-prot.pdb')
+t = md.load('/mddb2/md/bpti-prot/bpti-prot-00.dcd', top='/mddb2/md/bpti-prot/bpti-prot.pdb')
 
 # select the atoms in the topology file of type alpha
 t.top.select_atom_indices('alpha')
@@ -28,12 +28,29 @@ for frame in t_1k:
   for atom in frame:
     data.append((Vectors.dense(atom),))
 
+"""
 # Next, apply PCA with the following:
 from pyspark.ml.feature import PCA
 df = sqlContext.createDataFrame(data, ["features"])
 pca = PCA(k=2, inputCol="features", outputCol="pca_features")
 model = pca.fit(df)
 model.transform(df).collect()[0].pca_features
+"""
+
+# Razieh's version of the above commented chunk of code  
+from pyspark.sql import  SQLContext
+sqlContext=SQLContext(sc)
+df = sqlContext.createDataFrame(data, ["features"])
+pca = PCA(k=2, inputCol="features", outputCol="pca_features")
+model = pca.fit(df)
+features = model.transform(df) # this create a DataFrame with the regular features and pca_features
+pca_features = features.select("pca_features").rdd.map(lambda row : row[0])
+mat = RowMatrix(pca_features)
+
+svd = computeSVD(mat,2,True)
+svd.s
+svd.U
+svd.V
 
 #*********************************
 # The following methods need to be implemented for RDDs:
