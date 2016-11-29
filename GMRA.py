@@ -47,7 +47,7 @@ def add(rdd1,rdd2):
     mat3 = mat1.zip(mat2)
     return mat3.map(lambda (arr1,arr2) : arr1+arr2)
 
-def mult_matr(mat1,mat2):
+'''def mult_matr(mat1,mat2):
     #takes two rdds mat1 mxn and mat2 nxm and forms the matrix product
     #mat1*mat2 in mxm
     mat2 = rddTranspose(mat2)
@@ -55,14 +55,23 @@ def mult_matr(mat1,mat2):
     mat_cart = mat1.cartesian(mat2)
     mat_to_be_reshaped = mat_cart.map(lambda (arr1,arr2) : sum(map(lambda (x,y) : x*y, zip(arr1,arr2)))).zipWithIndex() #long rdd of m^2 entries where each entry is a scalar
     return mat_to_be_reshaped.groupBy(lambda (x,i): i/m).map(lambda row : list(row)).map(lambda (idx,row) : np.asarray([x for (x,i) in list(row)]))
+'''
 
-def rddTranspose(rdd):
+def mult_matr(mat1,mat2):
+    res = as_block_matrix(mat_1).multiply(as_block_matrix(mat_2))
+    return res.toCoordinateMatrix().toRowMatrix().rows.map(np.asarray)
+    
+'''def rddTranspose(rdd):
     rddT1 = rdd.zipWithIndex().flatMap(lambda (x,i): [(i,j,e) for (j,e) in enumerate(x)])
     rddT2 = rddT1.map(lambda (i,j,e): (j, (i,e))).groupByKey().sortByKey()
     rddT3 = rddT2.map(lambda (i, x): sorted(list(x),cmp=lambda (i1,e1),(i2,e2) : cmp(i1, i2)))
     rddT4 = rddT3.map(lambda x: map(lambda (i, y): y , x))
     return rddT4.map(lambda x: np.asarray(x))
 #Taken from http://www.data-intuitive.com/2015/01/transposing-a-spark-rdd/
+'''
+def rddTranspose(rdd):
+    res = as_block_matrix(rdd).transpose()
+    return res.toCoordinateMatrix().toRowMatrix().rows.map(np.asarray)
 
 def mult_by_sc(rdd,scalar):
     #multiplies by scalar
@@ -142,3 +151,9 @@ def gmra(rdd,resolution,d):
         rep += [rep_k,rep_k1]
         proj_matrices += [pr_k,pr_k1]
     return low_dim_rep,rep,centers,proj_matrices,clusters
+
+def as_block_matrix(rdd, rowsPerBlock=1024, colsPerBlock=1024):
+    return IndexedRowMatrix(
+        rdd.zipWithIndex().map(lambda xi: IndexedRow(xi[1], xi[0]))
+    ).toBlockMatrix(rowsPerBlock, colsPerBlock)
+#from http://stackoverflow.com/questions/37766213/spark-matrix-multiplication-with-python
