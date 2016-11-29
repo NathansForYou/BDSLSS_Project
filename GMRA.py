@@ -58,7 +58,7 @@ def add(rdd1,rdd2):
 '''
 
 def mult_matr(mat1,mat2):
-    res = as_block_matrix(mat_1).multiply(as_block_matrix(mat_2))
+    res = as_block_matrix(mat1).multiply(as_block_matrix(mat2))
     return res.toCoordinateMatrix().toRowMatrix().rows.map(np.asarray)
     
 def rddTranspose(rdd):
@@ -73,6 +73,7 @@ def rddTranspose(rdd):
     res = as_block_matrix(rdd).transpose()
     return res.toCoordinateMatrix().toRowMatrix().rows.map(np.asarray)
 '''
+
 def mult_by_sc(rdd,scalar):
     #multiplies by scalar
     return rdd.map(lambda arr : map(lambda arr_el : scalar*arr_el, arr))
