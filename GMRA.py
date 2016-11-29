@@ -134,7 +134,7 @@ def gmra(rdd,resolution,d):
         cluster_0,cluster_1 = cluster_step(clusters[j])
         clusters += [cluster_0,cluster_1]
         c_jk, Phi_jk = proj_step(cluster_0,d)
-        c_jk1, Phi_jk1 = proj_ste(cluster_1,d)
+        c_jk1, Phi_jk1 = proj_step(cluster_1,d)
         centers += [c_jk,c_jk1]
         ldr_k,rep_k,pr_k = proj_points(cluster_0,c_jk,Phi_jk)
         ldr_k1,rep_k1,pr_k1 = proj_points(cluster_1,c_jk1,Phi_jk1)
