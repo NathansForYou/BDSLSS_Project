@@ -72,7 +72,7 @@ def rddTranspose(rdd):
 '''def rddTranspose(rdd):
     res = as_block_matrix(rdd).transpose()
     return res.toCoordinateMatrix().toRowMatrix().rows.map(np.asarray)
-''''
+'''
 def mult_by_sc(rdd,scalar):
     #multiplies by scalar
     return rdd.map(lambda arr : map(lambda arr_el : scalar*arr_el, arr))
