@@ -17,14 +17,37 @@ import numpy as np
 t = md.load('/mbbd2/md/bpti-prot/bpti-prot-00.dcd', top='/mbbd2/md/bpti-prot/bpti-prot.pdb')
 
 # Get the first 1000 frames of xyz data
-t_train = t.xyz[0:1000]
-t_test = t.xyz[1000:1010]
+# Experimenting with number of test and train frames
+t_train_input = t.xyz[0:20000]
+t_test_input = t.xyz[50000:60000]
 
+# frames by total xyz values of all atoms
+t_train = np.zeros((20000, 2676))
+t_test = np.zeros((10000, 2676))
+
+# need each frame to hold a 1d vector, simply reshaping xyz values
+# look for a more efficient flattening, not time efficient
+for i in range(t_train.shape[0]):
+    frame = t_train_input[i]
+    for j in range(t_train_input.shape[1]):
+        point = frame[j]
+        for k in range(t_train_input.shape[2]):
+            t_train[i][j*3 + k] = point[k]
+
+for i in range(t_test.shape[0]):
+    frame = t_test_input[i]
+    for j in range(t_test_input.shape[1]):
+        point = frame[j]
+        for k in range(t_test_input.shape[2]):
+            t_test[i][j*3 + k] = point[k]
 
 # Parameters
+# edit parameters to tweak encoder
 learning_rate = 0.01
 training_epochs = 20
 batch_size = 100
+display_step = 1
+
 
 # Network Parameters
 n_hidden_1 = 892 # 1st layer num features
@@ -93,7 +116,10 @@ with tf.Session() as sess:
         batch_start = 0
         for i in range(total_batch):
             batch_end = batch_start + batch_size
-            batch_xs, batch_ys = t_train[batch_start:batch_end]
+            #print "Batch start: " + str(batch_start)
+            #print "Batch end: " + str(batch_end)
+            batch_xs = t_train[batch_start:batch_end][:]
+            batch_ys = t_train[batch_start:batch_end][:]
             # Run optimization op (backprop) and cost op (to get loss value)
             _, c = sess.run([optimizer, cost], feed_dict={X: batch_xs})
             batch_start += batch_size
@@ -101,9 +127,13 @@ with tf.Session() as sess:
         if epoch % display_step == 0:
             print("Epoch:", '%04d' % (epoch+1),
                   "cost=", "{:.9f}".format(c))
-
     print("Optimization Finished!")
-
     # Applying encode and decode over test set
     encode_decode = sess.run(
         y_pred, feed_dict={X: t_test})
+
+# Now perform comparisons against initial test data and decoded,
+# evaluate accuracy by average squared difference between them?
+# Look into potentially accuracy metrics more!
+t_test[0]
+encode_decode[0]
