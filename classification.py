@@ -1,8 +1,7 @@
 
 # ssh rnabi@damsl.cs.jhu.edu
 # ssh mddb2
-# cd /mddb2/bdt2016/spark1.5.1
-# bin/pyspark
+# cd /mddb2/bdt2016/spark1.5.1/bin/pyspark
 
 
 import numpy as np
@@ -13,6 +12,7 @@ from sklearn.neighbors import KNeighborsClassifier
 from sklearn.linear_model import SGDClassifier, Perceptron
 from sklearn.linear_model import PassiveAggressiveClassifier
 from sklearn.linear_model import LogisticRegression
+from sklearn import svm
 
 
 def classify(X, Y, classifier, splitratio):
@@ -30,6 +30,7 @@ def classify(X, Y, classifier, splitratio):
 # define different classifiers
 classifiers = [
     ("KNneighbors", KNeighborsClassifier(n_neighbors=3)),
+    ("SVM", svm.SVC()),
     ("SAG", LogisticRegression(solver='sag', tol=1e-1 )),
     ("SGD", SGDClassifier()),
     ("ASGD", SGDClassifier(average=True)),
@@ -57,6 +58,12 @@ Y = labels[0:100]
 Y.shape
 
 classify(X, Y, classifier=classifiers[0], splitratio=0.3)
+
+
+# +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+# Real example
+# cd /mddb2/bdt2016/gmra/gmra
+
 
 
 
