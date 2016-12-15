@@ -19,7 +19,7 @@ t = md.load('/mbbd2/md/bpti-prot/bpti-prot-00.dcd', top='/mbbd2/md/bpti-prot/bpt
 # Get the first 1000 frames of xyz data
 # Experimenting with number of test and train frames
 t_train_input = t.xyz[0:20000]
-t_test_input = t.xyz[50000:60000]
+t_test_input = t.xyz[50000:55000]
 
 # frames by total xyz values of all atoms
 t_train = np.zeros((20000, 2676))
@@ -27,6 +27,7 @@ t_test = np.zeros((10000, 2676))
 
 # need each frame to hold a 1d vector, simply reshaping xyz values
 # look for a more efficient flattening, not time efficient
+'''
 for i in range(t_train.shape[0]):
     frame = t_train_input[i]
     for j in range(t_train_input.shape[1]):
@@ -40,6 +41,11 @@ for i in range(t_test.shape[0]):
         point = frame[j]
         for k in range(t_test_input.shape[2]):
             t_test[i][j*3 + k] = point[k]
+'''
+
+# other potential flattening, SIGNIFICANTLY more efficient
+t_train = np.reshape(t_train_input, [20000, 892 * 3])
+t_test = np.reshape(t_test_input, [5000, 892 * 3])
 
 # Parameters
 # edit parameters to tweak encoder
@@ -137,3 +143,7 @@ with tf.Session() as sess:
 # Look into potentially accuracy metrics more!
 t_test[0]
 encode_decode[0]
+
+# Basic squared difference metric
+total_cost = np.sum((t_test - encode_decode)**2)
+average_cost = total_cost / (t_test.shape[0] * t_test.shape[1])
