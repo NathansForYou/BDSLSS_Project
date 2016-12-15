@@ -1,8 +1,0 @@
-bin
-build
-event.json
-env-prod.sh
-env-dev.sh
-gruntfile.js
-dist
-*.iml
