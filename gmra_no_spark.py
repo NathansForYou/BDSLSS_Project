@@ -1,5 +1,6 @@
 from sklearn.cluster import KMeans
 import numpy as np
+import incremental_svd as sv
 #import mdtraj as md
 
 class GMRA:
@@ -23,7 +24,10 @@ class GMRA:
         c_jk = data.mean(1)
         c_jk = np.reshape(c_jk,(c_jk.shape[0],1))
         centered_data = data - c_jk
-        Phi_jk, _, _ = np.linalg.svd(centered_data,full_matrices=False)
+        if centered_data.matrix.shape[1]<15000:
+            Phi_jk, _, _ = np.linalg.svd(centered_data,full_matrices=False)
+        else:
+            Phi_jk, _, _ = sv.svd(centered_data,dim)
         return c_jk, Phi_jk[:,0:dim]
 
     def proj_points(self, data, c_jk, Phi_jk):
@@ -42,7 +46,8 @@ class GMRA:
         c_jk = data.mean(1)
         c_jk = np.reshape(c_jk,(c_jk.shape[0],1))
         centered_data = data-c_jk
-        Phi_jk, _, _ = np.linalg.svd(centered_data,full_matrices=False)
+        #Phi_jk, _, _ = np.linalg.svd(centered_data,full_matrices=False)
+        Phi_jk, _, _ = sv.svd(centered_data,dim)
         resolutions = [(data,c_jk,Phi_jk[:,0:dim])]
         low_dim_reps = [np.transpose(Phi_jk[:,0:dim]).dot(data)]
         for j in xrange(2**res+1):
