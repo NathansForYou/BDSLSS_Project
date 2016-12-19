@@ -1,0 +1,185 @@
+\documentclass{article}
+
+% if you need to pass options to natbib, use, e.g.:
+% \PassOptionsToPackage{numbers, compress}{natbib}
+% before loading nips_2016
+%
+% to avoid loading the natbib package, add option nonatbib:
+% \usepackage[nonatbib]{nips_2016}
+
+\input{functions.tex}
+
+\usepackage[final]{nips_2016}
+
+% to compile a camera-ready version, add the [final] option, e.g.:
+% \usepackage[final]{nips_2016}
+
+\usepackage[utf8]{inputenc} % allow utf-8 input
+\usepackage[T1]{fontenc}    % use 8-bit T1 fonts
+\usepackage{hyperref}       % hyperlinks
+\usepackage{url}            % simple URL typesetting
+\usepackage{booktabs}       % professional-quality tables
+\usepackage{amsfonts}       % blackboard math symbols
+\usepackage{nicefrac}       % compact symbols for 1/2, etc.
+\usepackage{microtype}      % microtypography
+\usepackage{color}
+
+\title{Low Dimensional Multi-resolution Analysis for Protein Structures}
+
+% The \author macro works with any number of authors. There are two
+% commands used to separate the names and addresses of multiple
+% authors: \And and \AND.
+%
+% Using \And between authors leaves it to LaTeX to determine where to
+% break the lines. Using \AND forces a line break at that point. So,
+% if LaTeX puts 3 of 4 authors names on the first line, and the last
+% on the second line, try using \AND instead of \And before the third
+% author name.
+
+\author{
+  Teodor Marinov\\
+  \texttt{tmarino2@jhu.edu} \And
+  Nathan Smith\\
+  \texttt{} \And
+  Razieh Nabi\\
+  \texttt{} \And
+  Alex Gain\\
+  \texttt{} \And
+  Nikhil Panu\\
+  \texttt{}
+  %% examples of more authors
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \AND
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+  %% \And
+  %% Coauthor \\
+  %% Affiliation \\
+  %% Address \\
+  %% \texttt{email} \\
+}
+
+\begin{document}
+% \nipsfinalcopy is no longer used
+
+\maketitle
+
+\begin{abstract}
+  We consider two separate approaches for learning low-dimensional representations for protein structures. The first is based on Geometric Multi-Resolution Analysis (GMRA)~\cite{allard2012multi} and the second uses deep auto-encoders. We implement both models. The GMRA model is first implemented in python and then extended to make use of pyspark. The auto-encoder is implemented using Tensorflow~\cite{abadi2016tensorflow}. We evaluate our representations on a ``state'' prediction task using simple linear classifiers.
+\end{abstract}
+
+\section{Introduction}
+{\color{red}{TODO:Someone please write a good introduction to our project}}
+
+\section{Protein dataset and tasks}
+{\color{red}{TODO: explain the dataset, state prediction task, state transition task, motivate why we want to automatically learn representations i.e. right now most representations used to solve these tasks are hand-crafted by for example removing some heavy molecules or considering only certain residues. Explain the format of the dataset we are working with as well}}
+
+\section{Geometric Multi-resolution Analysis}
+Often times one likes to assume that data in some high dimensional Euclidean space $\mathbb{R}^D$ comes from a distribution supported on some compact low-dimensional manifold isometrically embedded in $\mathbb{R}^d$ where $d << D$. When the data turns out to come from a linear subspace one can use simple dimensionality reduction techniques like Principal Component Analysis. If the data, however, lives in a non-linear space now one needs to consider non-linear transformations like Kernel PCA. Unfortunately KPCA is not known to scale well with data - computational time for $n$ data points is $\mathcal{O}(n^3)$ and has no guarantees that it will recover the correct subspace. GMRA on the other hand provides a computationally efficient way (the order of computations only depends on parameters associated with the geometry of the underlying manifold and linearly on $D$) for finding good low-dimensional representations. Further it gives theoretical guarantees on how good the representations are. One more benefit of GMRA is that it provides representations at different ``scales'' for the underlying process which can be beneficial if we suspect that the process behaves differently at different levels. For our purposes we know that proteins change states not very often and the transition between states is quite short - so we only need fine-grained representations of our data near moments where transitions occur and the rest for the rest of the data we would be satisfied with coarse representations.
+\subsection{Background}
+We follow the notation in~\cite{allard2012multi}. Our setting is in a metric, measure space $\left(\mathcal{M},\rho, \mu\right)$ with metric $\rho$ and probability measure $\mu$. GMRA consists of three main parts - a multi-scale partition of the data into \textit{dyadic} cells, a linear approximation at each dyadic cell and a wavelet-type difference operators which encode the difference of representations between scales. The following assumptions are made for our data. Since we work with coordinates of atoms of the proteins we assume that each of the coordinates are some smooth enough function of time, energy and other unknown parameters so that the data originally belongs to a $C^{1+\alpha}$ ($\alpha \in (0,1]$) compact Riemannian manifold in $\mathbb{R}^d$. We also assume that there is some independent noise added to our observations so that our data lives in a small tube of radius $r$ around the underlying manifold. We note that $r$ should be small enough so that the tube does not intersect itself. We also assume that the function is periodic so that we only need to observe data in a fixed time interval to be able to do predictions.
+  \subsubsection{Multi-scale dyadic partition of our data}
+  \label{dyadic_properites}
+  The first step of the GMRA procedure is to construct a multi-scale partition of the data $\left\{C_{k,j}\right\}_{k\in\mathcal{K}_j,j\in\mathbb{Z}}$ (here $j$ indexes the scales and $k$ indexes the partition at each scale) with the following properties
+  \begin{itemize}
+  \item for every $j\in\mathbb{Z}$, $\mu\left(\mathcal{M}-\bigcup_{k\in\mathcal{K}_j}C_{k,j}\right) = 0$ i.e. at each scale $j$ the dyadic cells $C_{k,j}$ cover our data.
+  \item for $j'\geq j$ and $k'\in \mathcal{K}_{j'}$, either $C_{k',j'} \subseteq C_{k,j}$ or $\mu\left(C_{k',j'}\bigcap C_{k,j} \right) = 0$ i.e. at finer scales each dyadic cell is either contained in a dyadic cell from a coarser scale or is disjoint from a dyadic cells in coarser scales. Note that this property also implies that each scale forms a disjoint partition of the data
+  \item for $j < j'$ and $k'\in \mathcal{K}_{j'}$ $\exists ! k\in\mathcal{K}_j$ s.t. $C_{k',j'} \subseteq C_{k,j}$ i.e. each dyadic cell at a finer scale has a ``parent'' dyadic cell at each coarser scale
+  \item each $C_{k,j}$ contains $c_{k,j}$ s.t. there exist constants $c_1$ and $c_2$ for which $\mathcal{B}(c_{k,j},c_1 2^{-j}) \subseteq \C_{k,j} \subseteq \mathcal{B}(c_{k,j},c_2 2^{-j})$ i.e. the dyadic cells at scale $j$ are almost like balls of radius $2^{-j}$ in $\left(\mathcal{M},\rho, \mu\right)$
+  \end{itemize}
+  Such partitions exist for metric, measure spaces $\left(\mathcal{M},\rho, \mu\right)$ with the following property - for any $x \in \mathcal{M}, r \in \mathbb{R}$ there exists a constant $c$ independent of $x$ and $r$ such that $\mu\left(\mathcal{B}(x,2r)\right) \leq c\mu\left(\mathcal{B}(x,r)\right)$ \cite{guy1991wavelets}. In practice a data-structure satisfying these properties is a cover-tree~\cite{beygelzimer2006cover}.
+  \subsubsection{Low-dimensional affine approximations}
+  After computing the multi-scale partition the next step is to compute the affine approximations to each of the dyadic cells $C_{k,j}$. This is done by computing the eigenvalue decomposition of the auto-covariance operator of $C_{k,j}$. To be more explicit let $c_{j,k} = \ex{\mu}{x|x\in C_{k,j}}$ and let $\ex{\mu}{(x-c_{k,j})(x-c_{k,j})^{\top}|x\in C_{k,j}} \approx \Phi_{k,j}\Sigma_{k,j}\Phi_{k,j}^{\top}$ be the rank-$d$ truncated eigenvalue decomposition of the auto-covariance operator. Let $x \in C_{k,j}$ then the affine projection operator is defined by $P_{k,j}(x) = \Phi_{k,j}\Phi_{k,j}^{\top}(x-c_{k,j}) + c_{k,j}$. For our low-dimensional representations we just use $\Phi_{k,j}^{\top}(x-c_{k,j})\in \mathbb{R}^d$. Notice that the dominant term in computational complexity is going to come from the SVD of the auto-covariance operator which will require about $\mathcal{O}(Dd^2)$ time.
+  \subsubsection{Encoding differences between scales - Geometric Wavelets}
+  The final step is to compute the difference operators between scales. Let $x \in C_{k,j}$ and $x \in C_{k',j+1}$ then $Q_j(x) := P_{k',j+1}(x) - P_{k,j}(x)$. Let $\Psi_{k',j+1} = \left(I - \Phi_{k,j}\Phi_{k,j}^{\top}\right)\Phi_{k',j+1}$ then by equation 2.18 in~\cite{allard2012multi} we have $Q_j(x) = \Psi_{k',j+1}\Psi_{k',j+1}^{\top}\left(P_{k',j+1}(x) - c_{k',j+1}\right) + \left(I - \Phi_{k,j}\Phi_{k,j}^{\top}\right)(c_{k',j+1} - c_{k,j}) - \Phi_{k,j}\Phi_{k,j}^{\top}\sum_{l=j+1}^{J-1}Q_{l+1}(x)$. Notice that $Q_j(x)$ does not depend on $x$ but merely on $C_{k,j}$ and $C_{k',j+1}$ and that all of the operations to compute $Q_j(x)$ require only linear time in $D$ and quadratic time in $d$.
+  \subsection{Implementation}
+  For our implementation we use python with numpy~\cite{van2011numpy},sklearn~\cite{pedregosa2011scikit} and pyspark a library for python based on spark~\cite{zaharia2010spark}. The implementation can be split into two parts - first we have a purely python implementation without spark, then we extend our python implementation to make use of spark. Before presenting in more detail the algorithm we introduce some notation. Let $\U in \mathbb{R}^{m\times n}$ then $\U[0:d] \in \mathbb{R}^{m\times d}$ is the matrix consisting of the first $d$ columns of $\U$. Also $\mathbf{SVD}$ is a routine which computes the singular value decomposition of a given matrix, $\mathbf{mean}$ computes the empirical mean of the provided list of points, $\mathbf{split}$ splits the provided point-cloud into two partitions satisfying the properties listed in~\ref{dyadic_properites} and $\mathbf{append}$ appends given items to the end of a list. We note that in practice the expectation of a dyadic cell is replaced by the empirical mean of the points belonging to that cell and similarly the auto-covariance operator is replaced by its empirical estimate.\\
+  \begin{algorithm}[t]
+    \caption{Compute GMRA for data $X$}
+    \label{gmra_pseudo}
+    \begin{algorithmic}
+      \REQUIRE Point-cloud $X$, manifold dimension $d$, finest scale level $r$
+      \ENSURE Array of low-dimensional representations $L$, array of orthogonal matrices $\Phi$, centers of dyadic cells $centers$
+      \STATE $cells \leftarrow [X],\Phi \leftarrow [], L \leftarrow []$
+      \STATE $emp\_mean \leftarrow \mathbf{mean}\left(X)\right)$
+      \STATE $centers \leftarrow [emp\_mean]$
+      \STATE $\U\Sigma\U^{\top} \leftarrow \mathbf{SVD}\left(X-emp\_mean\right)$
+      \STATE $\Phi \leftarrow \Phi.\mathbf{append}\left(\U[0:d]\right)$
+      \STATE $L \leftarrow L.\mathbf{append}\left(\U[0:d]^{\top}\left(X-emp\_mean\right)\right)$
+      \FOR{$i=0$ to $2^r$}
+      \STATE $X_{k,j},X_{k+1,j} \leftarrow \mathbf{partition}\left(cells[i]\right)$
+      \STATE $cells \leftarrow cells.\mathbf{append}\left(X_{k,j},X_{k+1,j}\right)$
+      \STATE $emp\_mean \leftarrow \mathbf{mean}\left(X_{k,j}\right)$
+      \STATE $centers \leftarrow centers.\mathbf{append}\left(emp\_mean\right)$
+      \STATE $\U_{k,j}\Sigma_{k,j}\U_{k,j}^{\top} \leftarrow \mathbf{SVD}\left(X_{k,j}-emp\_mean\right)$
+      \STATE $\Phi \leftarrow \Phi.\mathbf{append}\left(\U_{k,j}[0:d]\right)$
+      \STATE $L \leftarrow L.\mathbf{append}\left(\U_{k,j}[0:d]^{\top}\left(X_{k,j}-emp\_mean\right)\right)$
+      \STATE $emp\_mean \leftarrow \mathbf{mean}\left(X_{k+1,j}\right)$
+      \STATE $centers \leftarrow centers.\mathbf{append}\left(emp\_mean\right)$
+      \STATE $\U_{k+1,j}\Sigma_{k+1,j}\U_{k+1,j}^{\top} \leftarrow \mathbf{SVD}\left(X_{k+1,j}-emp\_mean\right)$
+      \STATE $\Phi \leftarrow \Phi.\mathbf{append}\left(\U_{k+1,j}[0:d]\right)$
+      \STATE $L \leftarrow L.\mathbf{append}\left(\U_{k+1,j}[0:d]^{\top}\left(X_{k+1,j}-emp\_mean\right)\right)$
+      \ENDFOR
+    \end{algorithmic}
+  \end{algorithm}
+  The general routine for constructing the GMRA can be found as pseudo-code in~\ref{gmra_pseudo}. The routine consists of a recursively constructing the dyadic cells $C_{k,j},C_{k+1,j}$ from its parents $C_{k',j-1}$ effectively creating a binary-tree partition of our data. After each partition the empirical means and auto-covariance operators are constructed and then used to compute the low-dimensional representations of the points in the respective dyadic cell. We also provide a routing for projecting test points onto the already computed GMRA. Pseudo-code can be found in~\ref{proj_point}. The routine takes a point $x$ and at each scale assigns $x$ to the dyadic cell for which the distance between $x$ and the empirical mean of the dyadic cell is smallest. Because of the geometry associated with the dyadic cell partitions we only need to do a depth-first search of the binary tree.
+  \begin{algorithm}[tbh]
+    \caption{Project test point $x$}
+    \label{proj_point}
+    \begin{algorithmic}
+      \REQUIRE Test point $x$, $\Phi$ ,$centers$
+      \ENSURE Array of low-dimensional representations $proj$ of $x$
+      \STATE $j \leftarrow 0$
+      \WHILE{$2^{j+1} < \mathbf{len}\left(\Phi\right)$}
+      \STATE $idx \leftarrow \text{arg}\min\left(\mathbf{dist}\left(x,centers[2^j]\right),\mathbf{dist}\left(x,centers[2^j+1]\right)\right)$
+      \STATE $j \leftarrow idx$
+      \STATE $proj \leftarrow proj.\mathbf{append}(\Phi[idx]^{\top}(x-centers[idx]))$
+      \ENDWHILE
+    \end{algorithmic}
+  \end{algorithm}
+  \subsubsection{Numpy implementation specifics}
+  In practice we replace the cover-tree partition by a partition based on k-means clustering. In the the pseudo-code~\ref{gmra_pseudo} the routine $\mathbf{partition}$ just uses k-means clustering with 2 centers to partition the data. We note that all of the properties~\ref{dyadic_properites} except the last still hold. Also the $\mathbf{SVD}$ routine is switched between incremental SVD and standard SVD depending on how many points a dyadic cell contains. We also do a sort of a pruning of the tree structure by removing all dyadic cells and their associated structures if the angle between the affine approximation of a dyadic cell and its parent is close to 0. One should be careful when doing such a pruning as it is not entirely clear that there won't be non-trivial affine approximations of dyadic cells at finer scales with removed parents. By non-trivial here we mean that the angle between the affine approximation of a child and the affine approximation of a parent is larger than 0.
+  \subsubsection{Pyspark implementation specifics}
+  The pyspark implementation differs from the numpy implementation mainly in two ways. First if a dyadic cell is too large we create an rdd from it where each row of the rdd is a separate point in the dyadic cell represented as numpy array. We then have implemented functions which compute the mean of an rdd row-wise, mean-center the rdd and compute its truncated SVD to the first $d$ singular values. The function which computes the SVD will return the first $d$ right singular vectors in the form of a numpy matrix. Note that this numpy matrix is only $D\times d$. Next we compute the low-dimensional representations of the centered rdd by multiplying each row of the rdd by the orthogonal matrix we received from the SVD step.\\
+  If the number of a points in each dyadic cell at a fixed scale $j$ is not too large we create an rdd with rows each of the dyadic cells at scale $j$. We then \textit{map} our routine which computes the empirical mean, affine projection operator and low-dimensional representation of each dyadic cell to the rdd.\\
+  In general we decided to split up our spark implementation in these two ways for the following reasons. One if we have memory constraints and a dyadic cell doesn't fit into memory we can allow spark to take care of memory management by representing the dyadic cell as a separate rdd. Two if the dyadic cells at a fixed scale $j$ are small enough so that each cell fits into memory of the \textit{workers} we can parallelize the process of computing the projection operators and the affine approximations of each dyadic cell at scale $j$ since all cells at a fixed scale are disjoint the operations needed to compute the required representations are independent from each other. Sadly since we are no experts in using or setting up spark this implementation runs much slower compared to the pure python implementation and thus for our experiments the representations were computed by the pyre python implementation.
+\subsection{Evaluation}
+{\color{red}{TODO: explain what experiments were ran, what is the baseline, what classifiers were used, the observed results, etc.}}
+
+\section{Auto-encoder}
+{\color{red}{TODO: General introduction to auto-encoders}}
+\subsection{Theoretical motivation}
+One way to view what GMRA does is as a model which computes a piecewise linear approximation to an unknown smooth function (the function we associated our manifold with in the GMRA section). From \cite{arora2016understanding} Theorem 2.1 we know that every piecewise linear function can be represented by a deep neural network with ReLU activations. By part of the proof of this theorem we actually know that if we want to represent a piecewise linear function $f:\mathbb{R}^d \rightarrow \mathbb{R}$ with $p$ pieces by e ReLU DNN of depth $k+1$ we need the total number of neurons in the network to be at least $\frac{1}{2}kp^{\frac{1}{k}}-1$ (lemma A.6). From these results we start gaining a rough idea of how our auto-encoder should look like to be able to perform as well as or even better than GMRA. Since as we already stated GMRA learns a piecewise linear function and ReLU DNNs are able to represent every linear function we decide to use a Deep ReLU auto-encoder with reconstruction error being the $l^2$ norm.
+\subsection{Architecture and Implementation}
+{\color{red}{TODO:}}
+\subsection{Evaluation}
+{\color{red}{TODO:}}
+
+\section{Discussion and future work}
+{\color{red}{TODO:}}
+
+\section{Contributions to project}
+Teodor:
+\begin{itemize}
+\item background work on GMRA
+\item implementation of python and pyspark versions of GMRA (Razieh provided the pyspark SVD implementation and Nathan set up pyspark on mddb2)
+\item theoretical justification for why a ReLU auto-encoder should learn similar representations to GMRA
+\end{itemize}
+{\color{red}{TODO:}}
+
+\small
+\bibliography{bigdatabib}{}
+\bibliographystyle{plainnat}
+
+\end{document}

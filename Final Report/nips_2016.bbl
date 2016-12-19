@@ -1,0 +1,64 @@
+\begin{thebibliography}{8}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Agarwal, Barham, Brevdo, Chen, Citro,
+  Corrado, Davis, Dean, Devin, et~al.]{abadi2016tensorflow}
+Mart{\i}n Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen,
+  Craig Citro, Greg~S Corrado, Andy Davis, Jeffrey Dean, Matthieu Devin, et~al.
+\newblock Tensorflow: Large-scale machine learning on heterogeneous distributed
+  systems.
+\newblock \emph{arXiv preprint arXiv:1603.04467}, 2016.
+
+\bibitem[Allard et~al.(2012)Allard, Chen, and Maggioni]{allard2012multi}
+William~K Allard, Guangliang Chen, and Mauro Maggioni.
+\newblock Multi-scale geometric methods for data sets ii: Geometric
+  multi-resolution analysis.
+\newblock \emph{Applied and Computational Harmonic Analysis}, 32\penalty0
+  (3):\penalty0 435--462, 2012.
+
+\bibitem[Arora et~al.(2016)Arora, Basu, Mianjy, and
+  Mukherjee]{arora2016understanding}
+Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee.
+\newblock Understanding deep neural networks with rectified linear units.
+\newblock \emph{arXiv preprint arXiv:1611.01491}, 2016.
+
+\bibitem[Beygelzimer et~al.(2006)Beygelzimer, Kakade, and
+  Langford]{beygelzimer2006cover}
+Alina Beygelzimer, Sham Kakade, and John Langford.
+\newblock Cover trees for nearest neighbor.
+\newblock In \emph{Proceedings of the 23rd international conference on Machine
+  learning}, pages 97--104. ACM, 2006.
+
+\bibitem[Guy(1991)]{guy1991wavelets}
+David Guy.
+\newblock \emph{Wavelets and singular integrals on curves and surfaces}.
+\newblock 1991.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, et~al.]{pedregosa2011scikit}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, et~al.
+\newblock Scikit-learn: Machine learning in python.
+\newblock \emph{Journal of Machine Learning Research}, 12\penalty0
+  (Oct):\penalty0 2825--2830, 2011.
+
+\bibitem[Van Der~Walt et~al.(2011)Van Der~Walt, Colbert, and
+  Varoquaux]{van2011numpy}
+Stefan Van Der~Walt, S~Chris Colbert, and Gael Varoquaux.
+\newblock The numpy array: a structure for efficient numerical computation.
+\newblock \emph{Computing in Science \& Engineering}, 13\penalty0 (2):\penalty0
+  22--30, 2011.
+
+\bibitem[Zaharia et~al.(2010)Zaharia, Chowdhury, Franklin, Shenker, and
+  Stoica]{zaharia2010spark}
+Matei Zaharia, Mosharaf Chowdhury, Michael~J Franklin, Scott Shenker, and Ion
+  Stoica.
+\newblock Spark: cluster computing with working sets.
+\newblock \emph{HotCloud}, 10:\penalty0 10--10, 2010.
+
+\end{thebibliography}

@@ -1,0 +1,221 @@
+\usepackage{graphicx} % Required to insert images
+\graphicspath{ {images/} }
+\usepackage{amsmath,eqnarray,easybmat} % Required for Math Stuff
+\usepackage{enumerate,textpos}
+\usepackage{algorithmic,algorithm} % Alg packages
+\usepackage{amssymb,amsthm}
+\usepackage{hyperref,color,fullpage}
+\usepackage{wrapfig}
+\usepackage{csquotes}
+\usepackage[]{natbib}
+\usepackage{bm}
+\usepackage{titlesec}
+\usepackage{multicol}
+\usepackage{ulem}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{flushend}
+\usepackage{tikz}
+\usetikzlibrary{backgrounds}
+\usepackage{float}
+\usepackage{tikz-qtree}
+\usepackage[toc, page]{appendix}
+
+\tikzset{main node/.style={circle,fill=blue!20,draw,minimum size=0.5cm,inner sep=0pt}, }
+%----------------------------------------------------------------------------------------
+%	NEW COMMANDS
+%----------------------------------------------------------------------------------------
+
+% special characters
+
+\newcommand{\removed}[1]{}
+\newcommand{\cC}{\mathcal{C}}
+\newcommand{\cD}{\mathcal{D}}
+\newcommand{\cN}{\mathcal{N}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\cX}{\mathcal{X}}
+\newcommand{\cY}{\mathcal{Y}}
+
+\newcommand{\I}{{I}}
+
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\R}{\mathbb{R}}
+
+\newcommand{\cF}{\mathcal{F}}
+
+\newcommand{\cH}{\mathcal{H}}
+
+\newcommand{\cL}{\mathcal{L}}
+
+\newcommand{\cP}{\mathcal{P}}
+\newcommand{\PP}{\mathbb{P}}
+
+\newcommand{\cR}{\mathcal{R}}
+\newcommand{\cS}{\mathcal{S}}
+\newcommand{\cG}{\mathcal{G}}
+\newcommand{\cE}{\mathcal{E}}
+\newcommand{\cV}{\mathcal{V}}
+
+
+\newcommand{\RR}{\mathbb{R}}
+
+\renewcommand{\S}{\mathbb{S}}
+
+\newcommand{\0}{\boldsymbol{0}}
+\newcommand{\1}{\boldsymbol{1}}
+\renewcommand{\a}{\boldsymbol{a}}
+\newcommand{\A}{\boldsymbol{A}}
+\newcommand{\ra}{\mathrm{a}}
+\newcommand{\rva}{\boldsymbol{\mathrm{a}}}
+\renewcommand{\b}{\boldsymbol{b}}
+\newcommand{\rb}{\mathrm{b}}
+\newcommand{\rvb}{\boldsymbol{\mathrm{b}}}
+\renewcommand{\c}{\boldsymbol{c}}
+\newcommand{\C}{\boldsymbol{C}}
+\newcommand{\rc}{\mathrm{c}}
+\newcommand{\rvc}{\boldsymbol{\mathrm{c}}}
+\renewcommand{\d}{\boldsymbol{d}}
+\newcommand{\rd}{\mathrm{d}}
+\newcommand{\rvd}{\boldsymbol{\mathrm{d}}}
+\newcommand{\e}{\boldsymbol{e}}
+\newcommand{\re}{\mathrm{e}}
+\newcommand{\rve}{\boldsymbol{\mathrm{e}}}
+\newcommand{\f}{\boldsymbol{f}}
+\newcommand{\rf}{\mathrm{f}}
+\newcommand{\rvf}{\boldsymbol{\mathrm{f}}}
+\newcommand{\g}{\boldsymbol{g}}
+\newcommand{\rg}{\mathrm{g}}
+\newcommand{\rvg}{\boldsymbol{\mathrm{g}}}
+\newcommand{\h}{\boldsymbol{h}}
+\newcommand{\rh}{\mathrm{h}}
+\newcommand{\rvh}{\boldsymbol{\mathrm{h}}}
+\renewcommand{\i}{\boldsymbol{i}}
+\newcommand{\ri}{\mathrm{i}}
+\newcommand{\rvi}{\boldsymbol{\mathrm{i}}}
+\renewcommand{\j}{\boldsymbol{j}}
+\newcommand{\rj}{\mathrm{j}}
+\newcommand{\rvj}{\boldsymbol{\mathrm{j}}}
+\renewcommand{\k}{\boldsymbol{k}}
+\newcommand{\rk}{\mathrm{k}}
+\newcommand{\rvk}{\boldsymbol{\mathrm{k}}}
+\renewcommand{\l}{\boldsymbol{l}}
+\newcommand{\rl}{\mathrm{l}}
+\newcommand{\rvl}{\boldsymbol{\mathrm{l}}}
+\newcommand{\m}{\boldsymbol{m}}
+\newcommand{\M}{\boldsymbol{M}}
+\renewcommand{\rm}{\mathrm{m}}
+\newcommand{\rvm}{\boldsymbol{\mathrm{m}}}
+\newcommand{\n}{\boldsymbol{n}}
+\newcommand{\rn}{\mathrm{n}}
+\newcommand{\rvn}{\boldsymbol{\mathrm{n}}}
+\renewcommand{\o}{\boldsymbol{o}}
+\newcommand{\ro}{\mathrm{o}}
+\newcommand{\rvo}{\boldsymbol{\mathrm{o}}}
+\newcommand{\p}{\boldsymbol{p}}
+\newcommand{\rp}{\mathrm{p}}
+\newcommand{\rvp}{\boldsymbol{\mathrm{p}}}
+\newcommand{\q}{\boldsymbol{q}}
+\renewcommand{\rq}{\mathrm{q}}
+\newcommand{\rvq}{\boldsymbol{\mathrm{q}}}
+\renewcommand{\r}{\boldsymbol{r}}
+\newcommand{\rr}{\mathrm{r}}
+\newcommand{\rvr}{\boldsymbol{\mathrm{r}}}
+\newcommand{\s}{\boldsymbol{s}}
+\newcommand{\rs}{\mathrm{s}}
+\newcommand{\rvs}{\boldsymbol{\mathrm{s}}}
+\renewcommand{\t}{\boldsymbol{t}}
+\newcommand{\T}{\boldsymbol{T}}
+\newcommand{\rt}{\mathrm{t}}
+\newcommand{\rvt}{\boldsymbol{\mathrm{t}}}
+\renewcommand{\u}{\boldsymbol{u}}
+\newcommand{\U}{{U}}
+\newcommand{\ru}{\mathrm{u}}
+\newcommand{\rvu}{\boldsymbol{\mathrm{u}}}
+\renewcommand{\v}{\boldsymbol{v}}
+\newcommand{\V}{{V}}
+\newcommand{\rv}{\mathrm{v}}
+\newcommand{\rvv}{\boldsymbol{\mathrm{v}}}
+\newcommand{\w}{\boldsymbol{w}}
+\newcommand{\W}{\boldsymbol{W}}
+\newcommand{\rw}{\mathrm{w}}
+\newcommand{\rvw}{\boldsymbol{\mathrm{w}}}
+\newcommand{\x}{{x}}
+\newcommand{\X}{\boldsymbol{X}}
+\newcommand{\rx}{\mathrm{x}}
+\newcommand{\Y}{\boldsymbol{Y}}
+\newcommand{\ry}{\mathrm{y}}
+\newcommand{\y}{y}
+\newcommand{\z}{\boldsymbol{z}}
+\newcommand{\Z}{\boldsymbol{Z}}
+\newcommand{\rz}{\mathrm{z}}
+\newcommand{\rvz}{\boldsymbol{\mathrm{z}}}
+\newcommand{\ccG}{\widehat{\mathcal{G}}}
+\newcommand{\empCov}{\widehat{\Sigma}}
+
+
+\newcommand{\ex}[2]{\mathbb{E}_{#1}\left[#2\right]}
+\newcommand{\prob}[2]{\displaystyle\mathbb{P}_{#1}\left(#2\right)}
+
+% math operators
+\newcommand{\ev}[2]{\displaystyle\mathbb{E}_{#1}\left[#2\right]}
+\newcommand{\var}[1]{\operatorname{var}\left(#1\right)}
+\newcommand{\norm}[1]{\left\|#1\right\|}
+\renewcommand{\log}[1]{\operatorname{log}\left(#1\right)}
+\newcommand{\poly}[1]{\operatorname{poly}\left(#1\right)}
+\renewcommand{\cos}[1]{\operatorname{cos}\left(#1\right)}
+\renewcommand{\sin}[1]{\operatorname{sin}\left(#1\right)}
+\newcommand{\coh}[1]{\operatorname{coh}\left(#1\right)}
+% \newcommand{\trace}[1]{\operatorname{Tr}\left(#1\right)}
+\newcommand{\trace}{\textrm{Tr}}
+\newcommand{\diag}[1]{\operatorname{diag}\left(#1\right)}
+\newcommand{\laspan}[1]{\operatorname{span}\left(#1\right)}
+\renewcommand{\exp}[1]{\operatorname{exp}\{#1\}}
+\renewcommand{\dim}[1]{\operatorname{dim}\left(#1\right)}
+\newcommand{\rank}[1]{\operatorname{Rank}\left(#1\right)}
+\newcommand{\range}[1]{\operatorname{R}\left(#1\right)}
+\newcommand{\prox}[2]{\operatorname{\bf{prox}}_{#1}\left(#2\right)}
+\newcommand{\epi}[1]{\operatorname{\bf{epi}} #1}
+\newcommand{\dom}[1]{\operatorname{\bf{dom}} #1}
+\newcommand{\bigo}[1]{\mathcal{O}\left(#1\right)}
+\newcommand{\sign}[1]{\operatorname{sign}\left(#1\right)}
+
+% colors
+\newcommand{\red}[1]{{\color{red}{#1}}}
+\newcommand{\blue}[1]{{\color{blue}{#1}}}
+\newcommand{\gray}[1]{{\color{gray}{#1}}}
+\newcommand{\green}[1]{{\color{green}{#1}}}
+
+% max - min operators
+\newcommand{\maximize}[3]{
+\begin[11pt]{aligned}
+& \underset{#1}{\operatorname{max}}
+& & #2 \\
+& \textrm{subject to}
+& &  #3
+\end{aligned}
+}
+\newcommand{\minimize}[3]{
+\begin{aligned}
+& \underset{#1}{\operatorname{min}}
+& & #2 \\
+& \textrm{subject to}
+& &  #3
+\end{aligned}
+}
+
+\newcommand{\countP}[3]{{h}_{#1,#2}{\left(#3\right)}}
+\newcommand{\countPc}[2]{{h}_{#1}{\left(#2\right)}}
+\newcommand{\countPs}[3]{{h}_{#1}^{#2}{\left(#3\right)}}
+\newcommand{\countPb}[3]{{\hat{h}}_{#1,#2}{\left(#3\right)}}
+
+\newcommand{\GT}[2]{\mathcal{G}\mathcal{T}\left(#1,#2\right)}
+\newcommand{\G}[2]{\mathcal{G}\left(#1,#2\right)}
+\newcommand{\he}[2]{\left\{v_{#1,#2},\cdot\right\}}
+\newcommand{\ed}[4]{\left\{v_{#1,#2},v_{#3,#4}\right\}}
+
+\newtheorem{thm}{Theorem}[section]
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{conj}[thm]{Conjecture}
+\newtheorem{definition}{Definition}
