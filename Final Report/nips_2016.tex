@@ -44,7 +44,7 @@
   Razieh Nabi\\
   \texttt{} \And
   Alex Gain\\
-  \texttt{} \And
+  \texttt{again1@jhu.edu} \And
   Nikhil Panu\\
   \texttt{}
   %% examples of more authors
@@ -82,8 +82,22 @@
 \section{Introduction}
 {\color{red}{TODO:Someone please write a good introduction to our project}}
 
+Currently, precise physical simulations of proteins exist to better understand their properties w.r.t. conformational changes and features. [ref?] These datasets are large and high-dimensional thus there is a demand for meaningful low dimensional representations and parallelization of algorithms that work in conjuction with the datasets for the sake of improved computational efficiency and accuracy on classification tasks. In this project, we worked with spatial trajectory data from the \textit{Molecular Dynamics Database} (MDDB)~\cite{Nutanong:2013:AEL:2484838.2484872} project at Johns Hopkins with a focus on learning meaningful low dimensional representations.
+
+Typically, to address the high-dimensionality of the features, packages such as MDtraj~\cite{McGibbon2015MDTraj} are used to perform hand-crafted feature transformations such as selecting a subset of the atoms or residues and computing atoms' pairwise distances. With the goal of automatically learning practical representations, we propose two methods: The first method uses Geometric Multi-Resolution Analysis (GMRA) ~\cite{allard2012multi}, an unsupervised learning process that makes use of linear approximations at multiple scales. The second method uses a neural network autoencoder architecture inspired by GMRA and theoretical motivation about the expressitivity of neural networks with ReLU activation.
+
+This paper is split into two parts: The GMRA method and the autoencoder method. We provide background for each method as well as the specifics of their implementations. Additionally, we describe our dataset, evaluation criteria, and results compared to a baseline. Finally, we discuss our results and future work.
+
 \section{Protein dataset and tasks}
 {\color{red}{TODO: explain the dataset, state prediction task, state transition task, motivate why we want to automatically learn representations i.e. right now most representations used to solve these tasks are hand-crafted by for example removing some heavy molecules or considering only certain residues. Explain the format of the dataset we are working with as well}}
+
+Proteins tend to stay in stable states where energy levels are nearly constant. There are a discrete number of stable states, or energy levels, of the proteins, which we can ascertain and assign labels to. During some relatively small time intervals, a process occurs where a protein transitions from one stable state to another. This process is not completely understood, but it is crucial to important applications such as manipulating proteins for pharmeucitical purposes.
+
+Predicting and understanding transitions is a hard task. Thus, as a starting point, necessarily ask a preceding question: Can we understand and predict a protein’s state based on its spatial conformation? For this classication task, we train on spatial-temporal information supervised by discrete state labels for each timeframe.
+
+The MDDB dataset contains protein trajectory simulation data of 892 atoms with both temporal and non-temporal information. We only make use of the spatial-temporal data, which consists of the x-y-z coordinates of each atom sampled every 250 picoseconds. Logistically, one simulation is broken into 42 files each containing around 100,000 observations. Our experiments are conducted on the first 10 files for a total of 1,000,000 observations. For state labels, the data is segmented into 1000-frame time windows where a single label at the midpoint of each frame considered representative of the entire window, i.e. the label for the 1500-th timestep determines the label for timesteps 1000 through 2000.
+
+
 
 \section{Geometric Multi-resolution Analysis}
 Often times one likes to assume that data in some high dimensional Euclidean space $\mathbb{R}^D$ comes from a distribution supported on some compact low-dimensional manifold isometrically embedded in $\mathbb{R}^d$ where $d << D$. When the data turns out to come from a linear subspace one can use simple dimensionality reduction techniques like Principal Component Analysis. If the data, however, lives in a non-linear space now one needs to consider non-linear transformations like Kernel PCA. Unfortunately KPCA is not known to scale well with data - computational time for $n$ data points is $\mathcal{O}(n^3)$ and has no guarantees that it will recover the correct subspace. GMRA on the other hand provides a computationally efficient way (the order of computations only depends on parameters associated with the geometry of the underlying manifold and linearly on $D$) for finding good low-dimensional representations. Further it gives theoretical guarantees on how good the representations are. One more benefit of GMRA is that it provides representations at different ``scales'' for the underlying process which can be beneficial if we suspect that the process behaves differently at different levels. For our purposes we know that proteins change states not very often and the transition between states is quite short - so we only need fine-grained representations of our data near moments where transitions occur and the rest for the rest of the data we would be satisfied with coarse representations.
@@ -176,6 +190,19 @@ Teodor:
 \item implementation of python and pyspark versions of GMRA (Razieh provided the pyspark SVD implementation and Nathan set up pyspark on mddb2)
 \item theoretical justification for why a ReLU auto-encoder should learn similar representations to GMRA
 \end{itemize}
+
+Alex:
+\begin{itemize}
+	\item GMRA evaluation
+	\begin{itemize}
+		\item Hyperparameter tests
+		\item Parallelizing workflow
+	\end{itemize}
+	\item Data formatting and general debugging for GMRA evaluation
+	\item General discussion of methods and future work
+\end{itemize}
+
+
 {\color{red}{TODO:}}
 
 \small
