@@ -1,6 +1,7 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  19 DEC 2016 17:01
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  21 DEC 2016 06:16
 entering extended mode
  restricted \write18 enabled.
+ file:line:error style messages enabled.
  %&-line parsing enabled.
 **nips_2016.tex
 (./nips_2016.tex
@@ -1428,36 +1429,58 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 78.
- [1
+
+
+Package natbib Warning: Citation `Nutanong:2013:AEL:2484838.2484872' on page 1 
+undefined on input line 85.
+
+
+Package natbib Warning: Citation `McGibbon2015MDTraj' on page 1 undefined on in
+put line 87.
+
+[1
 
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-LaTeX Font Info:    Try loading font information for OMS+ptm on input line 96.
+LaTeX Font Info:    Try loading font information for OMS+ptm on input line 110.
+
 
 (/usr/local/texlive/2015/texmf-dist/tex/latex/psnfss/omsptm.fd
 File: omsptm.fd 
 )
 LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 96.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 110.
+
+Underfull \vbox (badness 2512) has occurred while \output is active []
+
+ [2]
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
-put line 109.
- [2] [3]
-[4] (./nips_2016.bbl) [5]
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 185.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 185.
+put line 123.
+
+[3]
+Underfull \vbox (badness 4954) has occurred while \output is active []
+
+ [4]
+[5] (./nips_2016.bbl [6])
+
+Package natbib Warning: There were undefined citations.
+
+[7]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 220.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 220.
  (./nips_2016.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 185.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 185.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 220.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 220.
 Package rerunfilecheck Info: File `nips_2016.out' has not changed.
 (rerunfilecheck)             Checksum: 6072ACC35E55AD269130B926B70FE3DE;1233.
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 185.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 220.
  ) 
 Here is how much of TeX's memory you used:
- 22437 strings out of 493089
- 399257 string characters out of 6134842
- 530058 words of memory out of 5000000
- 25271 multiletter control sequences out of 15000+600000
- 38643 words of font info for 137 fonts, out of 8000000 for 9000
+ 22456 strings out of 493089
+ 399459 string characters out of 6134842
+ 528087 words of memory out of 5000000
+ 25273 multiletter control sequences out of 15000+600000
+ 39388 words of font info for 147 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,9n,54p,1533b,580s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
@@ -1480,10 +1503,10 @@ mf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2015/texmf
 -dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/font
 s/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/ur
 w/times/utmri8a.pfb>
-Output written on nips_2016.pdf (5 pages, 203641 bytes).
+Output written on nips_2016.pdf (7 pages, 211882 bytes).
 PDF statistics:
- 253 PDF objects out of 1000 (max. 8388607)
- 225 compressed objects within 3 object streams
- 61 named destinations out of 1000 (max. 500000)
+ 265 PDF objects out of 1000 (max. 8388607)
+ 235 compressed objects within 3 object streams
+ 63 named destinations out of 1000 (max. 500000)
  21141 words of extra memory for PDF output out of 24883 (max. 10000000)
 

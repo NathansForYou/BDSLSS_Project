@@ -40,7 +40,7 @@
   Teodor Marinov\\
   \texttt{tmarino2@jhu.edu} \And
   Nathan Smith\\
-  \texttt{} \And
+  \texttt{nsmith45@jhu.edu} \And
   Razieh Nabi\\
   \texttt{} \And
   Alex Gain\\
@@ -172,7 +172,9 @@ We follow the notation in~\cite{allard2012multi}. Our setting is in a metric, me
 {\color{red}{TODO: explain what experiments were ran, what is the baseline, what classifiers were used, the observed results, etc.}}
 
 \section{Auto-encoder}
-{\color{red}{TODO: General introduction to auto-encoders}}
+Neural networks may be used in a wide variety of learning tasks in which current domain-knowledge or algorithmic limitations may limit researchers from defining their own learning methods. Autoencoders, a particular type of unsupervised neural network used for the learning of efficient data encodings, proved especially applicable to our challenge of protein dimensionality reduction. A basic autoencoder functions as a feed-forward, non-recurrent neural network in which there is an input layer, and output layer, and hidden layers between them working to iteratively learn computations. In the case of autoencoders, the input and output layers have an equal number of nodes, and the intention is for the output layer to accurately reconstruct its inputs. \\
+All autoencoders consist of two core sections: the encoder, in which the input layer is fed into a sequence of hidden layers that ultimately decrease in dimensionality, and the decoder, in which hidden layers ultimately lead to the output layer of equal dimension. The encoder transforms the n-dimensional input layer into a new m-dimensional feature space, where a decrease in dimensionality may be interpreted as a compressed representation of the input space. In the case of our protein dataset, an autoencoder may be used to take an initial input layer of dimension 3n, where n is the number of atoms in the dataset, and decrease it significantly in the encoding phase, with an accurate decoding reconstruction. Ideally, a central hidden layer of two or three dimensions could be produced to visually represent a protein. Proteins could then be classified by their states, and a graphical comparison of these states could be made by segmenting a two or three dimensional representation.
+
 \subsection{Theoretical motivation}
 One way to view what GMRA does is as a model which computes a piecewise linear approximation to an unknown smooth function (the function we associated our manifold with in the GMRA section). From \cite{arora2016understanding} Theorem 2.1 we know that every piecewise linear function can be represented by a deep neural network with ReLU activations. By part of the proof of this theorem we actually know that if we want to represent a piecewise linear function $f:\mathbb{R}^d \rightarrow \mathbb{R}$ with $p$ pieces by e ReLU DNN of depth $k+1$ we need the total number of neurons in the network to be at least $\frac{1}{2}kp^{\frac{1}{k}}-1$ (lemma A.6). From these results we start gaining a rough idea of how our auto-encoder should look like to be able to perform as well as or even better than GMRA. Since as we already stated GMRA learns a piecewise linear function and ReLU DNNs are able to represent every linear function we decide to use a Deep ReLU auto-encoder with reconstruction error being the $l^2$ norm.
 \subsection{Architecture and Implementation}
@@ -202,6 +204,12 @@ Alex:
 	\item General discussion of methods and future work
 \end{itemize}
 
+Nathan:
+\begin{itemize}
+	\item Initial meetings with Teodor to decide on GMRA and autoencoder implementations.
+	\item Built and incrementally reworked/evaluated autoencoder for protein point cloud
+	\item Set up Spark and Tensorflow on mddb2, did initial testing with mdtraj and basic GMRA functions
+\end{itemize}
 
 {\color{red}{TODO:}}
 
