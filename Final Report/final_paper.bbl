@@ -1,0 +1,105 @@
+\begin{thebibliography}{13}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Abadi et~al.(2016)Abadi, Agarwal, Barham, Brevdo, Chen, Citro,
+  Corrado, Davis, Dean, Devin, et~al.]{abadi2016tensorflow}
+Mart{\i}n Abadi, Ashish Agarwal, Paul Barham, Eugene Brevdo, Zhifeng Chen,
+  Craig Citro, Greg~S Corrado, Andy Davis, Jeffrey Dean, Matthieu Devin, et~al.
+\newblock Tensorflow: Large-scale machine learning on heterogeneous distributed
+  systems.
+\newblock \emph{arXiv preprint arXiv:1603.04467}, 2016.
+
+\bibitem[Allard et~al.(2012)Allard, Chen, and Maggioni]{allard2012multi}
+William~K Allard, Guangliang Chen, and Mauro Maggioni.
+\newblock Multi-scale geometric methods for data sets ii: Geometric
+  multi-resolution analysis.
+\newblock \emph{Applied and Computational Harmonic Analysis}, 32\penalty0
+  (3):\penalty0 435--462, 2012.
+
+\bibitem[Arora et~al.(2016)Arora, Basu, Mianjy, and
+  Mukherjee]{arora2016understanding}
+Raman Arora, Amitabh Basu, Poorya Mianjy, and Anirbit Mukherjee.
+\newblock Understanding deep neural networks with rectified linear units.
+\newblock \emph{arXiv preprint arXiv:1611.01491}, 2016.
+
+\bibitem[Baldi(2012)]{autoencoderintro}
+Pierre Baldi.
+\newblock Autoencoders, unsupervised learning, and deep architectures.
+\newblock \emph{JMLR: Workshop on unsupervised and Transfer Learning},
+  27:\penalty0 37--50, 2012.
+
+\bibitem[Baldi et~al.(2000)Baldi, Brunak, Frasconi, Pollastri, and
+  Soda]{recurrentnetworks}
+Pierre Baldi, Soren Brunak, Paolo Frasconi, Gianluca Pollastri, and Giovanni
+  Soda.
+\newblock Bidirectional dynamics for protein secondary structure prediction.
+\newblock \emph{Sequence Learning}, 1828:\penalty0 80--104, 2000.
+
+\bibitem[Beygelzimer et~al.(2006)Beygelzimer, Kakade, and
+  Langford]{beygelzimer2006cover}
+Alina Beygelzimer, Sham Kakade, and John Langford.
+\newblock Cover trees for nearest neighbor.
+\newblock In \emph{Proceedings of the 23rd international conference on Machine
+  learning}, pages 97--104. ACM, 2006.
+
+\bibitem[Guy(1991)]{guy1991wavelets}
+David Guy.
+\newblock \emph{Wavelets and singular integrals on curves and surfaces}.
+\newblock 1991.
+
+\bibitem[McGibbon et~al.(2015)McGibbon, Beauchamp, Harrigan, Klein, Swails,
+  Hern{\'a}ndez, Schwantes, Wang, Lane, and Pande]{McGibbon2015MDTraj}
+Robert~T. McGibbon, Kyle~A. Beauchamp, Matthew~P. Harrigan, Christoph Klein,
+  Jason~M. Swails, Carlos~X. Hern{\'a}ndez, Christian~R. Schwantes, Lee-Ping
+  Wang, Thomas~J. Lane, and Vijay~S. Pande.
+\newblock Mdtraj: A modern open library for the analysis of molecular dynamics
+  trajectories.
+\newblock \emph{Biophysical Journal}, 109\penalty0 (8):\penalty0 1528 -- 1532,
+  2015.
+\newblock \doi{10.1016/j.bpj.2015.08.015}.
+
+\bibitem[Nutanong et~al.(2013)Nutanong, Carey, Ahmad, Szalay, and
+  Woolf]{Nutanong:2013:AEL:2484838.2484872}
+Sarana Nutanong, Nick Carey, Yanif Ahmad, Alex~S. Szalay, and Thomas~B. Woolf.
+\newblock Adaptive exploration for large-scale protein analysis in the
+  molecular dynamics database.
+\newblock In \emph{Proceedings of the 25th International Conference on
+  Scientific and Statistical Database Management}, SSDBM, pages 45:1--45:4, New
+  York, NY, USA, 2013. ACM.
+\newblock ISBN 978-1-4503-1921-8.
+\newblock \doi{10.1145/2484838.2484872}.
+\newblock URL \url{http://doi.acm.org/10.1145/2484838.2484872}.
+
+\bibitem[Pedregosa et~al.(2011)Pedregosa, Varoquaux, Gramfort, Michel, Thirion,
+  Grisel, Blondel, Prettenhofer, Weiss, Dubourg, et~al.]{pedregosa2011scikit}
+Fabian Pedregosa, Ga{\"e}l Varoquaux, Alexandre Gramfort, Vincent Michel,
+  Bertrand Thirion, Olivier Grisel, Mathieu Blondel, Peter Prettenhofer, Ron
+  Weiss, Vincent Dubourg, et~al.
+\newblock Scikit-learn: Machine learning in python.
+\newblock \emph{Journal of Machine Learning Research}, 12\penalty0
+  (Oct):\penalty0 2825--2830, 2011.
+
+\bibitem[Schramm(2013)]{Schramm}
+Vern~L. Schramm.
+\newblock Transition states, analogues and drug development.
+\newblock \emph{ACS chemical biology}, 8:\penalty0 71--81, 2013.
+
+\bibitem[Van Der~Walt et~al.(2011)Van Der~Walt, Colbert, and
+  Varoquaux]{van2011numpy}
+Stefan Van Der~Walt, S~Chris Colbert, and Gael Varoquaux.
+\newblock The numpy array: a structure for efficient numerical computation.
+\newblock \emph{Computing in Science \& Engineering}, 13\penalty0 (2):\penalty0
+  22--30, 2011.
+
+\bibitem[Zaharia et~al.(2010)Zaharia, Chowdhury, Franklin, Shenker, and
+  Stoica]{zaharia2010spark}
+Matei Zaharia, Mosharaf Chowdhury, Michael~J Franklin, Scott Shenker, and Ion
+  Stoica.
+\newblock Spark: cluster computing with working sets.
+\newblock \emph{HotCloud}, 10:\penalty0 10--10, 2010.
+
+\end{thebibliography}
