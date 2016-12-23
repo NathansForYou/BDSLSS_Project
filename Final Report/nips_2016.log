@@ -1,7 +1,6 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  22 DEC 2016 21:26
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.5.24)  22 DEC 2016 22:39
 entering extended mode
  restricted \write18 enabled.
- file:line:error style messages enabled.
  %&-line parsing enabled.
 **nips_2016.tex
 (./nips_2016.tex
@@ -1429,20 +1428,7 @@ Package microtype Info: Loading generic settings for font family
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Font shape `T1/ptm/bx/n' in size <12> not available
 (Font)              Font shape `T1/ptm/b/n' tried instead on input line 78.
-
-
-Package natbib Warning: Citation `Schramm' on page 1 undefined on input line 84
-.
-
-
-Package natbib Warning: Citation `Nutanong:2013:AEL:2484838.2484872' on page 1 
-undefined on input line 86.
-
-
-Package natbib Warning: Citation `McGibbon2015MDTraj' on page 1 undefined on in
-put line 88.
-
-[1
+ [1
 
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
@@ -1460,29 +1446,11 @@ LaTeX Font Info:    Font shape `OMS/ptm/m/n' in size <10> not available
 Package hyperref Info: bookmark level for unknown algorithm defaults to 0 on in
 put line 122.
  [3] [4]
-[5]
-
-Package natbib Warning: Citation `autoencoderintro' on page 6 undefined on inpu
-t line 226.
-
-[6]
-Underfull \hbox (badness 10000) in paragraph at lines 239--240
-
- []
-
-
-Package natbib Warning: Citation `recurrentnetworks' on page 7 undefined on inp
-ut line 241.
-
-
+[5] [6]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [7]
-(./nips_2016.bbl [8])
-
-Package natbib Warning: There were undefined citations.
-
-[9]
+(./nips_2016.bbl [8]) [9]
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 285.
 Package atveryend Info: Empty hook `AfterLastShipout' on input line 285.
  (./nips_2016.aux)
@@ -1493,15 +1461,15 @@ Package rerunfilecheck Info: File `nips_2016.out' has not changed.
 Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 285.
  ) 
 Here is how much of TeX's memory you used:
- 22473 strings out of 493089
- 399622 string characters out of 6134842
- 528118 words of memory out of 5000000
- 25276 multiletter control sequences out of 15000+600000
- 39908 words of font info for 155 fonts, out of 8000000 for 9000
+ 22552 strings out of 493089
+ 400874 string characters out of 6134842
+ 529448 words of memory out of 5000000
+ 25324 multiletter control sequences out of 15000+600000
+ 45594 words of font info for 182 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  57i,9n,54p,1597b,580s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}{/usr/local/t
-exlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}</usr/local/tex
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}
+{/usr/local/texlive/2015/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/local/tex
 live/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texl
 ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texli
 ve/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texliv
@@ -1516,14 +1484,15 @@ dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb></usr/local/texlive/2015/texmf-di
 st/fonts/type1/public/amsfonts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist
 /fonts/type1/public/amsfonts/symbols/msbm10.pfb></usr/local/texlive/2015/texmf-
 dist/fonts/type1/public/amsfonts/symbols/msbm7.pfb></usr/local/texlive/2015/tex
-mf-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2015/texmf
--dist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/ur
-w/times/utmri8a.pfb>
-Output written on nips_2016.pdf (9 pages, 227265 bytes).
+mf-dist/fonts/type1/public/cm-super/sftt0900.pfb></usr/local/texlive/2015/texmf
+-dist/fonts/type1/public/cm-super/sftt1000.pfb></usr/local/texlive/2015/texmf-d
+ist/fonts/type1/urw/times/utmb8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/
+type1/urw/times/utmr8a.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/urw/
+times/utmri8a.pfb>
+Output written on nips_2016.pdf (9 pages, 257820 bytes).
 PDF statistics:
- 275 PDF objects out of 1000 (max. 8388607)
- 243 compressed objects within 3 object streams
- 65 named destinations out of 1000 (max. 500000)
- 21141 words of extra memory for PDF output out of 24883 (max. 10000000)
+ 298 PDF objects out of 1000 (max. 8388607)
+ 265 compressed objects within 3 object streams
+ 70 named destinations out of 1000 (max. 500000)
+ 23701 words of extra memory for PDF output out of 24883 (max. 10000000)
 
