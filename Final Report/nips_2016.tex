@@ -167,8 +167,58 @@ We follow the notation in~\cite{allard2012multi}. Our setting is in a metric, me
   The pyspark implementation differs from the numpy implementation mainly in two ways. First if a dyadic cell is too large we create an rdd from it where each row of the rdd is a separate point in the dyadic cell represented as numpy array. We then have implemented functions which compute the mean of an rdd row-wise, mean-center the rdd and compute its truncated SVD to the first $d$ singular values. The function which computes the SVD will return the first $d$ right singular vectors in the form of a numpy matrix. Note that this numpy matrix is only $D\times d$. Next we compute the low-dimensional representations of the centered rdd by multiplying each row of the rdd by the orthogonal matrix we received from the SVD step.\\
   If the number of a points in each dyadic cell at a fixed scale $j$ is not too large we create an rdd with rows each of the dyadic cells at scale $j$. We then \textit{map} our routine which computes the empirical mean, affine projection operator and low-dimensional representation of each dyadic cell to the rdd.\\
   In general we decided to split up our spark implementation in these two ways for the following reasons. One if we have memory constraints and a dyadic cell doesn't fit into memory we can allow spark to take care of memory management by representing the dyadic cell as a separate rdd. Two if the dyadic cells at a fixed scale $j$ are small enough so that each cell fits into memory of the \textit{workers} we can parallelize the process of computing the projection operators and the affine approximations of each dyadic cell at scale $j$ since all cells at a fixed scale are disjoint the operations needed to compute the required representations are independent from each other. Sadly since we are no experts in using or setting up spark this implementation runs much slower compared to the pure python implementation and thus for our experiments the representations were computed by the pyre python implementation.
+
 \subsection{Evaluation}
-{\color{red}{TODO: explain what experiments were ran, what is the baseline, what classifiers were used, the observed results, etc.}}
+
+	As stated previously, as a first step towards understanding transitions between proteins' stable states, we start by attempting to understand and predict a protein's state based on its spaitial conformation. In other words, we try to solve the supervised learning task where the spatial-temporal data is the input and the output are integers correpsonding to state labels for each timestep.
+	
+	Our GMRA method takes the spatial-temporal data as input and outputs lower-dimensional representations for the data for a given number of resolutions. So, for example, given an assumed manifold dimension $d$, a number of resolutions $r$, and a number of data points $N$, the model will train on the input data and output $N$ $d$-dimensional vectors for reach resolution. For our experiments, we concatenated the resolutions together. So, our representations dataset exists in $\mathbb{R}^{N \times (r d)}$.
+	
+	Note that there are two parameters of interest: The manifold dimension $d$ and the number of resolutions $r$. Assuming the original data lives on a manifold of dimension $d^*$, for any $d < d^*$ important information will be lost. For $d > d^*$ there could be redundant information. Naturally, $d$ should ideally be chosen close to $d^*$ so as to retain important information, eliminate redudant information, and allow for tractable computation. Considering the number of resolutions, a similar pattern is expected. Given our concatenation approach, as $r$ increases no important information will be lost, but redundant information may be introduced.
+	
+	Given the importance of selecting an optimal $d$ and $r$, we have run experiments to understand their effects, shown in Tables 1 and 2. For these experiments, the first 10 files from the MDDB dataset is used, which is approximately 1,000,000 time steps or around 25\% of the total amount of data. The dataset and model are split, trained, and classified using an 80:20 training data: test data ratio. The classifiers used are k-Nearest-Neighbor ($k=7$) and SGD, an estimator that implements regularized linear models with stochastic gradient descent. Both are taken from the sklearn package.
+	
+\begin{center}
+
+	\begin{tabular}{*{4}{>{\centering\arraybackslash}p{2cm} }}\toprule
+		\hline
+		\multicolumn{3}{|c|}{Table 1: Varying Manifold-dimension} \\
+		\hline
+		Dimension & ASGD & k-NN\\
+		\hline
+		3   & 73.2 \%    &89.6 \%  \\
+		5 &   80.22  \% &96.4 \%  \\
+		10 & 89.4 \% & 99.0 \%  \\
+		15    & 90.1 \% & 99.3 \% \\
+		\hline
+	\end{tabular}
+
+\end{center}
+
+\begin{center}
+
+	\begin{tabular}{*{4}{>{\centering\arraybackslash}p{2cm} }}\toprule
+		\hline
+		\multicolumn{3}{|c|}{Table 2: Varying Number of Resolutions} \\
+		\hline
+		Resolutions & ASGD & k-NN\\
+		\hline
+		2   & 81.3 \%    &99.3 \%  \\
+		4 &   88.1 \%  &99.3 \% \\
+		7 & 89.4 \% & 99.2 \% \\
+		10    & 83.59 \% & 99.3 \% \\
+		\hline
+	\end{tabular}
+
+\end{center}
+	
+From both Tables 1 and 2, the results seem promising, especially for k-NN which achieves greater than 90\% accuracy in almost all cases. This could possibly be due to the fact that, although 25\% of the data was used, only three distinct states occurred with over half of the labels being a single state. It would be interesting to see how well these results generalize to more diverse or larger datasets and is a good next step for future research.
+	
+Table 1 shows results from varying the manifold dimension. We can see that test accuracy improves as the dimension increases, but starts to level off at around dimensions 10 and 15. This is the case for both ASGD k-NN. Table 2 results are interesting in that k-NN performs about the same regardless of the number of resolutions.  For ASGD, however, there is clearly a sweetspot number of resolutions at around 7. Perhaps these results will generalize to the k-NN classifier as well when more data is used. 
+	
+Additionally, experiments were run using a baseline representation as well. Using the MDtraj package, we selected a subset of the ``heavy'' atoms and computed their pairwise distances to obtain a baseline representation. These representations performed poorly, however, in the range of 50-65\% in all cases. Experiments were then run on a small subset of the raw data as well with similar results.
+	
+Given the results of the experiments, the efficacy of our GMRA representations appears promising.
 
 \section{Auto-encoder}
 Neural networks may be used in a wide variety of learning tasks in which current domain-knowledge or algorithmic limitations may limit researchers from defining their own learning methods. Autoencoders, a particular type of unsupervised neural network used for the learning of efficient data encodings, proved especially applicable to our challenge of protein dimensionality reduction. A basic autoencoder functions as a feed-forward, non-recurrent neural network in which there is an input layer, and output layer, and hidden layers between them working to iteratively learn computations. In the case of autoencoders, the input and output layers have an equal number of nodes, and the intention is for the output layer to accurately reconstruct its inputs.
