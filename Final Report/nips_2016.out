@@ -8,7 +8,7 @@
 \BOOKMARK [2][-]{subsection.3.2}{Implementation}{section.3}% 8
 \BOOKMARK [3][-]{subsubsection.3.2.1}{Numpy implementation specifics}{subsection.3.2}% 9
 \BOOKMARK [3][-]{subsubsection.3.2.2}{Pyspark implementation specifics}{subsection.3.2}% 10
-\BOOKMARK [2][-]{subsection.3.3}{Evaluation}{section.3}% 11
+\BOOKMARK [2][-]{subsection.3.3}{Evaluation and Results}{section.3}% 11
 \BOOKMARK [1][-]{section.4}{Auto-encoder}{}% 12
 \BOOKMARK [2][-]{subsection.4.1}{Theoretical motivation}{section.4}% 13
 \BOOKMARK [2][-]{subsection.4.2}{Architecture and Implementation}{section.4}% 14
