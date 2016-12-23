@@ -42,7 +42,7 @@
   Nathan Smith\\
   \texttt{nsmith45@jhu.edu} \And
   Razieh Nabi\\
-  \texttt{} \And
+  \texttt{rnabiab1@jhu.edu} \And
   Alex Gain\\
   \texttt{again1@jhu.edu} \And
   Nikhil Panu\\
@@ -80,7 +80,7 @@
 \end{abstract}
 
 \section{Introduction}
-{\color{red}{TODO:Someone please write a good introduction to our project}}
+Recently, molecualar mechanics have captured the attention of scientists who aim at predicting transition structures in modecular biology. As the name suggests, transitions are movement of a molecule structure upward (or downward) the energy curve. Due to the nature of the molecules, transition structures are more difficult to describe than equilibrium geometrics. Knowing where and when these transitions may occure would help us to better understand the structure and properties of proteins. One use of this is in drug developement industry where a major application of enzymatic transition state information involves the design of transition state analogues that will act as tight-binding inhibitors ~\cite{Schramm}. 
 
 Currently, precise physical simulations of proteins exist to better understand their properties w.r.t. conformational changes and features. [ref?] These datasets are large and high-dimensional thus there is a demand for meaningful low dimensional representations and parallelization of algorithms that work in conjuction with the datasets for the sake of improved computational efficiency and accuracy on classification tasks. In this project, we worked with spatial trajectory data from the \textit{Molecular Dynamics Database} (MDDB)~\cite{Nutanong:2013:AEL:2484838.2484872} project at Johns Hopkins with a focus on learning meaningful low dimensional representations.
 
@@ -89,8 +89,6 @@ Typically, to address the high-dimensionality of the features, packages such as 
 This paper is split into two parts: The GMRA method and the autoencoder method. We provide background for each method as well as the specifics of their implementations. Additionally, we describe our dataset, evaluation criteria, and results compared to a baseline. Finally, we discuss our results and future work.
 
 \section{Protein dataset and tasks}
-{\color{red}{TODO: explain the dataset, state prediction task, state transition task, motivate why we want to automatically learn representations i.e. right now most representations used to solve these tasks are hand-crafted by for example removing some heavy molecules or considering only certain residues. Explain the format of the dataset we are working with as well}}
-
 Proteins tend to stay in stable states where energy levels are nearly constant. There are a discrete number of stable states, or energy levels, of the proteins, which we can ascertain and assign labels to. During some relatively small time intervals, a process occurs where a protein transitions from one stable state to another. This process is not completely understood, but it is crucial to important applications such as manipulating proteins for pharmeucitical purposes.
 
 Predicting and understanding transitions is a hard task. Thus, as a starting point, necessarily ask a preceding question: Can we understand and predict a protein’s state based on its spatial conformation? For this classication task, we train on spatial-temporal information supervised by discrete state labels for each timeframe.
@@ -192,7 +190,7 @@ Ultimately, despite numerous experiments with the autoencoder's structure, the d
 In addition to the potential of autoencoders for atemporal protein dimensionality reduction, neural networks show strong potential for estimating protein state transitions in temporal data. As discussed in "Bidirectional Dynamics for Protein Secondary Structure Prediction"~\cite{recurrentnetworks}, architectures based on hidden Markov models and recurrent neural networks demonstrate a significant step in predicting secondary state transitions in protein structures. Recurrent networks have been heavily used in natural language processing and machine translation for conditional word prediction, and the problem of protein state transitions may be seen as an analogous task in a different domain.
 
 \section{Discussion and future work}
-{\color{red}{TODO:}}
+The main focus of this project was on discovery of ``useful" representations for the protein structure using the spatial coordinates ($xyz$ coordinates). Precise simulations on protein structure provides us with very large, heterogeneous, and high dimensional datasets. Because of the nature of protein, they tend to stay stable at a relatively constant energy level. In rare occasions, we observe some sharp jumps and/or downs in the energy plot of the molecule that corresponds to state transitions. If we want to get something useful out of the dataset, we need to come up with a nice representation of the data that captures the ``best'' information and throw away the unnecessary parts. We have taken two different approaches in this regard: GMRA and Autoencoders. Using the representations, there are two exciting problems to explore: First, can we understand and predict a protein's state based on its spatial conformation? Second, when and why do state transitions occur? The former problem is investigated in this attempt, and the latter is left for future work. We have provided results on predicting/classifying the molecule's state suing GMRA representations. 
 
 \section{Contributions to project}
 Teodor:
@@ -218,6 +216,13 @@ Nathan:
 	\item Initial meetings with Teodor to decide on GMRA and autoencoder implementations.
 	\item Built and incrementally reworked/evaluated autoencoder for protein point cloud
 	\item Set up Spark and Tensorflow on mddb2, did initial testing with mdtraj and basic GMRA functions
+\end{itemize}
+
+Razieh:
+\begin{itemize}
+	\item Providing SVD mplementation in Pyspark as part for GMRA implementations
+	\item Providing classifiers for our supervised learning tasks
+	\item Performing data formatting with Alex and discussing GMRA evaluations
 \end{itemize}
 
 {\color{red}{TODO:}}
